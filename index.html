@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Financial Markets and Institutions — MCQ Quiz</title>
+<style>
+  :root { color-scheme: light; --ink:#1f2937; --muted:#64748b; --line:#dbe2ea; --blue:#1d4ed8; --green:#15803d; --red:#b91c1c; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#f3f6fb; color:var(--ink); font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  header { background:#173b73; color:white; padding:28px 18px; }
+  header .wrap, main { max-width:900px; margin:auto; }
+  h1 { margin:0 0 8px; font-size:clamp(1.5rem,4vw,2.2rem); }
+  header p { margin:0; opacity:.9; }
+  main { padding:22px 14px 48px; }
+  .info { background:white; border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:18px; }
+  .bar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+  .progress { height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-top:12px; }
+  .progress > div { height:100%; width:0; background:#3b82f6; transition:width .2s; }
+  .question { background:white; border:1px solid var(--line); border-radius:14px; padding:18px; margin:14px 0; }
+  .qhead { display:flex; gap:10px; align-items:flex-start; }
+  .num { background:#e8efff; color:#1e40af; font-weight:800; border-radius:8px; min-width:34px; text-align:center; padding:4px 7px; }
+  .qtext { margin:2px 0 14px; font-weight:650; }
+  .options { display:grid; gap:9px; }
+  label.option { display:flex; gap:10px; align-items:flex-start; border:1px solid var(--line); border-radius:10px; padding:11px 12px; cursor:pointer; }
+  label.option:hover { border-color:#93b4f7; background:#f8faff; }
+  label.option input { margin-top:5px; accent-color:var(--blue); }
+  label.option.correct { border-color:#86c99b; background:#effaf2; }
+  label.option.wrong { border-color:#f0a0a0; background:#fff1f1; }
+  .feedback { display:none; margin:10px 0 0 44px; font-size:.94rem; }
+  .feedback.show { display:block; }
+  .feedback.good { color:var(--green); } .feedback.bad { color:var(--red); }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin:22px 0; }
+  button { border:0; border-radius:10px; padding:12px 18px; font:inherit; font-weight:700; cursor:pointer; }
+  button.primary { background:var(--blue); color:white; } button.secondary { background:#e2e8f0; color:#1f2937; }
+  button:disabled { opacity:.6; cursor:not-allowed; }
+  #result { display:none; background:white; border:2px solid #93c5fd; border-radius:14px; padding:20px; margin:20px 0; }
+  #result h2 { margin-top:0; } #score { font-size:1.6rem; font-weight:800; }
+  .small { color:var(--muted); font-size:.93rem; }
+  footer { text-align:center; color:var(--muted); padding:16px; }
+  @media print { body { background:white; } header { background:white; color:black; padding:10px 0; } main { max-width:none; } .actions, .progress, #result { display:none!important; } .question,.info { break-inside:avoid; box-shadow:none; } }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>Financial Markets and Institutions</h1>
+  <p>Interactive MCQ Quiz · Chapters 1, 2 and 3 · 50 Questions · 50 Marks</p>
+</div></header>
+<main>
+  <section class="info">
+    <div class="bar"><div><strong>Instructions:</strong> Select one answer for each question, then submit.</div><div id="answered">0 of 50 answered</div></div>
+    <div class="progress" aria-label="Quiz completion"><div id="progressFill"></div></div>
+    <p class="small">Your score and explanations will appear after submission. You can reset the quiz to try again.</p>
+  </section>
+  <form id="quizForm"></form>
+  <div class="actions">
+    <button class="primary" type="button" id="submitBtn">Submit Quiz</button>
+    <button class="secondary" type="button" id="resetBtn">Reset Quiz</button>
+    <button class="secondary" type="button" id="printBtn">Print</button>
+  </div>
+  <section id="result" aria-live="polite">
+    <h2>Quiz Results</h2><div id="score"></div><p id="message"></p><p id="unanswered"></p>
+  </section>
+</main>
+<footer>Practice quiz for revision. Review your course notes for full preparation.</footer>
+<script>
+const questions = [
+{c:1,q:"The main purpose of financial markets is to:",o:["Connect people with surplus funds to those who need funds","Set prices for all consumer goods","Replace every financial institution","Eliminate all financial risk"],a:0,e:"Financial markets channel funds from savers to borrowers and investors."},
+{c:1,q:"A bond is best described as a:",o:["Share of ownership","Debt instrument","Foreign currency","Type of insurance"],a:1,e:"A bond is a debt security; its issuer borrows funds from investors."},
+{c:1,q:"A stock generally represents:",o:["Ownership in a company","A loan due on a fixed date","A currency deposit","A tax payment"],a:0,e:"Stock generally represents an ownership interest in a company."},
+{c:1,q:"The cost of borrowing through debt markets is closely related to the:",o:["Interest rate","Number of company employees","Price of food","Size of the exchange building"],a:0,e:"Interest rates are a key measure of the cost of borrowing."},
+{c:1,q:"The foreign exchange market facilitates the exchange of:",o:["Shares for bonds only","One currency for another","Goods for services only","Loans for taxes"],a:1,e:"Foreign exchange markets allow currencies to be exchanged."},
+{c:1,q:"Financial institutions are important partly because they:",o:["Help channel funds and manage financial transactions","Make every investment profitable","Eliminate the need for markets","Set every company's sales"],a:0,e:"Financial institutions help move funds and provide financial services."},
+{c:1,q:"Financial innovation refers to changes in:",o:["Financial products and ways of delivering financial services","Only weather conditions","Only population size","The laws of physics"],a:0,e:"Innovation can change financial products, markets, and service delivery."},
+{c:1,q:"In a supply-and-demand framework, market prices can adjust when:",o:["Supply or demand changes","All trading stops permanently","No buyers or sellers exist","All information disappears"],a:0,e:"Changes in supply and demand can affect equilibrium market prices."},
+{c:1,q:"Arbitrage seeks to benefit from:",o:["Price differences for equivalent or related assets","Guaranteed returns on every investment","Paying the same tax twice","Ignoring market prices"],a:0,e:"Arbitrage involves seeking gains from price discrepancies across markets or assets."},
+{c:1,q:"The stock market's secondary market is where:",o:["New shares are first issued","Previously issued shares are traded","Currencies are printed","All loans are forgiven"],a:1,e:"Secondary markets allow investors to trade securities that have already been issued."},
+{c:1,q:"Which is a key benefit of liquid financial markets?",o:["Investors can buy or sell assets more readily","Every investor earns a profit","Prices never change","Borrowing is always free"],a:0,e:"Liquidity makes it easier to trade assets without a large delay or price concession."},
+{c:1,q:"Financial markets can help manage risk by:",o:["Providing opportunities to transfer or share some risks","Guaranteeing no losses ever occur","Removing all uncertainty","Making all assets identical"],a:0,e:"Financial markets and institutions can support risk transfer and sharing, but cannot remove all risk."},
+{c:1,q:"A primary market is the market for:",o:["Newly issued securities","Previously issued securities only","Currency exchange only","Physical commodities only"],a:0,e:"New securities are sold in the primary market."},
+{c:1,q:"Which statement best describes the role of financial markets in an economy?",o:["They help allocate funds to productive uses","They ensure all firms succeed","They replace production","They prevent all business cycles"],a:0,e:"Markets help direct savings toward borrowers and investment opportunities."},
+{c:1,q:"A financial crisis can affect the economy partly because:",o:["Disruptions in finance can reduce lending and economic activity","It guarantees higher investment","It removes the need for credit","It makes all assets risk-free"],a:0,e:"Financial disruptions can interfere with credit flows and economic activity."},
+{c:2,q:"Direct finance occurs when:",o:["Borrowers raise funds directly from lenders through financial markets","Funds always pass through a bank","A regulator collects taxes","A company buys office supplies"],a:0,e:"In direct finance, borrowers obtain funds from lenders in financial markets without an intermediary standing between them as the primary channel."},
+{c:2,q:"Indirect finance commonly involves:",o:["Financial intermediaries","No institutions at any stage","Only stock exchanges","Only currency dealers"],a:0,e:"Banks and other intermediaries channel funds between savers and borrowers."},
+{c:2,q:"Which market mainly deals in short-term debt instruments?",o:["Capital market","Money market","Real estate market","Labour market"],a:1,e:"The money market focuses on short-term debt instruments."},
+{c:2,q:"Which market mainly deals in long-term financial instruments?",o:["Money market","Capital market","Retail goods market","Foreign exchange market only"],a:1,e:"Capital markets include longer-term debt and equity instruments."},
+{c:2,q:"A broker generally:",o:["Brings buyers and sellers together","Always buys securities for their own account","Sets all central bank rates","Issues every bond"],a:0,e:"A broker facilitates transactions between buyers and sellers."},
+{c:2,q:"A dealer typically:",o:["Buys and sells securities for their own account","Only introduces buyers and sellers without trading","Regulates all banks","Collects income tax"],a:0,e:"Dealers trade for their own account and may earn from the bid-ask spread."},
+{c:2,q:"An organized exchange generally provides:",o:["A structured venue with trading rules","No trading rules of any kind","Only private family transactions","No securities trading"],a:0,e:"Exchanges provide organized trading arrangements and rules."},
+{c:2,q:"Over-the-counter trading commonly takes place through:",o:["A dealer network rather than one centralized exchange","Only a single physical auction","A classroom","A retail food market"],a:0,e:"OTC markets commonly rely on networks of dealers and participants."},
+{c:2,q:"A key function of the secondary market is to provide:",o:["Liquidity for existing securities","Guaranteed profit to every seller","A ban on resale","Free borrowing for everyone"],a:0,e:"Secondary markets make existing securities easier to trade."},
+{c:2,q:"Price discovery is the process through which markets:",o:["Determine prices through trading and available information","Set every price by lottery","Remove all buyers","Guarantee future returns"],a:0,e:"Trading activity and information help buyers and sellers arrive at market prices."},
+{c:2,q:"A foreign bond is generally issued by a foreign borrower in a country's market and denominated in:",o:["The currency of the country where it is sold","No currency","Only the buyer's home currency in every case","A commodity unit"],a:0,e:"A foreign bond is sold in a foreign country's market and is typically denominated in that country's currency."},
+{c:2,q:"A Eurodollar is:",o:["A U.S. dollar deposit held outside the United States","A euro coin held in America","A share in a European company","A tax receipt"],a:0,e:"Eurodollars are U.S. dollar deposits held in banks outside the United States."},
+{c:2,q:"Financial intermediaries can lower transaction costs through:",o:["Economies of scale and specialized services","Making each transaction more complicated","Preventing all lending","Removing record keeping"],a:0,e:"Specialization and scale can reduce the cost of carrying out financial transactions."},
+{c:2,q:"Diversification reduces risk by:",o:["Spreading investments across different assets","Investing everything in one asset","Ignoring asset performance","Borrowing without limit"],a:0,e:"Diversification spreads exposure rather than concentrating it in one asset."},
+{c:2,q:"Asymmetric information exists when:",o:["One party has more or better information than another","Every party has exactly the same information","Prices never change","No transaction is possible"],a:0,e:"Asymmetric information means the parties do not have equal information."},
+{c:2,q:"Adverse selection mainly arises from:",o:["Hidden information before a transaction","Behavior changes after an agreement","Bond maturity alone","Currency fees only"],a:0,e:"Adverse selection is an information problem that exists before or at the time of a transaction."},
+{c:2,q:"Moral hazard is associated with:",o:["Actions after an agreement that are difficult to monitor","Information available only before a contract","The face value of a bond","The first issue of a share"],a:0,e:"Moral hazard arises when a party may take different actions after an agreement because those actions are difficult to observe."},
+{c:2,q:"Financial regulation may aim to:",o:["Promote stability, transparency, and consumer protection","Guarantee profit on every investment","Remove all financial reporting","Prevent every financial service"],a:0,e:"Regulation can support a sound financial system and protect market participants."},
+{c:2,q:"Risk sharing by financial intermediaries helps investors and savers to:",o:["Spread or transfer some financial risks","Guarantee that losses never happen","Avoid all financial choices","Receive identical returns"],a:0,e:"Intermediaries can pool and redistribute risks, although risk is not eliminated."},
+{c:2,q:"The present value of a future payment means its:",o:["Value today after discounting","Value plus all future interest without discounting","Maturity date","Expected inflation rate"],a:0,e:"Present value converts future cash flows into their value today using a discount rate."},
+{c:3,q:"All else equal, when the discount rate rises, the present value of a fixed future payment:",o:["Falls","Rises","Always becomes zero","Never changes"],a:0,e:"A higher discount rate reduces the present value of a fixed future payment."},
+{c:3,q:"The principal of a loan is:",o:["The amount initially borrowed","The annual interest rate","The maturity date","The lender's tax bill"],a:0,e:"Principal is the original amount borrowed."},
+{c:3,q:"The maturity of a loan or bond is:",o:["The time until repayment is due","The annual coupon rate","The current yield","The expected inflation rate"],a:0,e:"Maturity identifies when the debt obligation is due to be repaid."},
+{c:3,q:"A standard coupon bond typically pays:",o:["Periodic interest and face value at maturity","No payments at all","Only stock dividends","An unlimited payment forever"],a:0,e:"Coupon bonds pay interest periodically and generally repay face value at maturity."},
+{c:3,q:"A discount bond is generally purchased for:",o:["Less than its face value","Exactly zero","More than face value in every case","A price unrelated to cash flows"],a:0,e:"A discount bond sells below face value."},
+{c:3,q:"A consol is a bond that:",o:["Pays a fixed payment indefinitely","Must mature in one year","Has no coupon payments","Represents ordinary shares"],a:0,e:"A consol is a perpetuity: it makes fixed payments indefinitely."},
+{c:3,q:"Yield to maturity (YTM) is the yield that:",o:["Equates the bond's price with the present value of its promised payments","Always equals expected inflation","Always equals the coupon rate","Measures only company sales"],a:0,e:"YTM is the discount rate that equates a bond's price with the present value of its promised cash flows under standard assumptions."},
+{c:3,q:"When a standard bond's yield to maturity rises, its price generally:",o:["Falls","Rises","Remains fixed by definition","Immediately becomes zero"],a:0,e:"Higher yields discount a bond's promised payments more heavily, reducing its price."},
+{c:3,q:"A bond selling at par has a market price equal to its:",o:["Face value","Annual coupon payment","Maturity in months","Current yield percentage"],a:0,e:"A par bond trades at a price equal to face value."},
+{c:3,q:"Current yield is calculated as annual coupon payments divided by the:",o:["Current bond price","Number of years to maturity","Expected inflation rate","Issuer's total assets"],a:0,e:"Current yield compares the annual coupon amount with the bond's current market price."},
+{c:3,q:"The approximate real interest rate relationship is:",o:["Real rate ≈ nominal rate − expected inflation","Real rate ≈ nominal rate + expected inflation","Real rate ≈ expected inflation − nominal rate","Real rate is always zero"],a:0,e:"The approximate Fisher relationship subtracts expected inflation from the nominal interest rate."},
+{c:3,q:"A nominal interest rate is a rate that is:",o:["Not adjusted for inflation","Always adjusted for inflation","Used only for stock dividends","Always equal to zero"],a:0,e:"The nominal rate is stated before adjusting for inflation."},
+{c:3,q:"All else equal, bond prices are generally more sensitive to interest-rate changes when bonds have:",o:["Longer maturities","Shorter maturities","No future cash flows","No market price"],a:0,e:"Longer-maturity bonds generally have greater price sensitivity to changes in yields."},
+{c:3,q:"Reinvestment risk is the risk that:",o:["Cash flows must be reinvested at less favorable rates","A bond's face value changes every day by contract","A bond never pays a coupon","Inflation is always zero"],a:0,e:"Reinvestment risk concerns uncertainty about the rates available when cash flows are reinvested."},
+{c:3,q:"For a fixed-payment loan, the payment amount is generally designed to cover:",o:["Interest and repayment of principal over the loan term","Only taxes unrelated to the loan","Only the lender's operating costs","Only the final payment's interest"],a:0,e:"Fixed-payment loans use scheduled payments that include interest and principal repayment."},
+{c:3,q:"A bond's current yield alone does not fully measure its yield to maturity because it does not include:",o:["Capital gains or losses as the bond moves toward maturity value","The annual coupon payment","The current market price","The bond's issuer"],a:0,e:"Current yield only compares coupon income with price; YTM also accounts for price changes toward repayment value."},
+{c:3,q:"If a bond is bought below face value and repaid at face value at maturity, the investor may receive:",o:["A capital gain in addition to coupon income, if applicable","A guaranteed capital loss","No repayment of face value","Ownership rights in the issuer"],a:0,e:"The difference between a below-face purchase price and face-value repayment can produce a capital gain."}
+];
+const form = document.getElementById('quizForm');
+const letters = ["A","B","C","D"];
+questions.forEach((item, i) => {
+  const section = document.createElement('section');
+  section.className = 'question';
+  section.id = `question-${i}`;
+  section.innerHTML = `<div class="qhead"><span class="num">${i+1}</span><div style="flex:1"><div class="small">Chapter ${item.c}</div><p class="qtext">${item.q}</p></div></div>`;
+  const options = document.createElement('div');
+  options.className = 'options';
+  item.o.forEach((option, j) => {
+    const label = document.createElement('label');
+    label.className = 'option';
+    label.dataset.option = j;
+    label.innerHTML = `<input type="radio" name="q${i}" value="${j}"><span><strong>${letters[j]}.</strong> ${option}</span>`;
+    options.appendChild(label);
+  });
+  section.appendChild(options);
+  const feedback = document.createElement('div');
+  feedback.className = 'feedback';
+  feedback.id = `feedback-${i}`;
+  section.appendChild(feedback);
+  form.appendChild(section);
+});
+const answeredEl = document.getElementById('answered');
+const progressFill = document.getElementById('progressFill');
+let submitted = false;
+function updateProgress() {
+  const count = questions.filter((_, i) => form.querySelector(`input[name="q${i}"]:checked`)).length;
+  answeredEl.textContent = `${count} of ${questions.length} answered`;
+  progressFill.style.width = `${count / questions.length * 100}%`;
+}
+form.addEventListener('change', () => { if (!submitted) updateProgress(); });
+document.getElementById('submitBtn').addEventListener('click', () => {
+  if (submitted) return;
+  let score = 0, unansweredCount = 0;
+  questions.forEach((item, i) => {
+    const selected = form.querySelector(`input[name="q${i}"]:checked`);
+    const selectedValue = selected ? Number(selected.value) : null;
+    if (selectedValue === null) unansweredCount++;
+    if (selectedValue === item.a) score++;
+    const labels = form.querySelectorAll(`#question-${i} label.option`);
+    labels.forEach((label, j) => {
+      label.querySelector('input').disabled = true;
+      if (j === item.a) label.classList.add('correct');
+      if (selectedValue === j && j !== item.a) label.classList.add('wrong');
+    });
+    const fb = document.getElementById(`feedback-${i}`);
+    fb.className = `feedback show ${selectedValue === item.a ? 'good' : 'bad'}`;
+    fb.textContent = selectedValue === null
+      ? `Not answered. Correct answer: ${letters[item.a]}. ${item.o[item.a]}. ${item.e}`
+      : selectedValue === item.a
+        ? `Correct. ${item.e}`
+        : `Your answer: ${letters[selectedValue]}. Correct answer: ${letters[item.a]}. ${item.e}`;
+  });
+  submitted = true;
+  const result = document.getElementById('result');
+  result.style.display = 'block';
+  document.getElementById('score').textContent = `${score} / ${questions.length} (${Math.round(score/questions.length*100)}%)`;
+  document.getElementById('message').textContent = score >= 45 ? 'Excellent work!' : score >= 35 ? 'Good effort. Review the explanations for missed questions.' : score >= 25 ? 'Keep practicing and revise the relevant chapters.' : 'Review the chapter notes and try the quiz again.';
+  document.getElementById('unanswered').textContent = unansweredCount ? `Unanswered questions: ${unansweredCount}. Each unanswered question counts as 0.` : 'You answered every question.';
+  document.getElementById('submitBtn').disabled = true;
+  result.scrollIntoView({behavior:'smooth', block:'start'});
+});
+document.getElementById('resetBtn').addEventListener('click', () => location.reload());
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
